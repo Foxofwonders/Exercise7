@@ -17,7 +17,7 @@ public class Concordances
   {
     System.out.println("Hello, world!");
     int a = 5;
-    int b = 3;
+    int b = 1;
     
     System.out.println(multiply(add(a, b), b));
     
