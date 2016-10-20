@@ -20,6 +20,8 @@ public class Concordances
     int b = 30;
     
     System.out.println(multiply(add(a, b), b));
+    
+    System.out.println("Should be: " + ((5 + 30) * 30));
 
   }
   
