@@ -22,7 +22,9 @@ public class Concordances
   public static void a()
   {}
   
-  public static void b()
-  {}
+  public static int add(int a, int b)
+  {
+    return 0;
+  }
 
 }
