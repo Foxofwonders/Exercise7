@@ -16,6 +16,10 @@ public class Concordances
   public static void main(String[] args)
   {
     System.out.println("Hello, world!");
+    int a = 0;
+    int b = 0;
+    
+    System.out.println(multiply(add(a, b), b));
 
   }
   
