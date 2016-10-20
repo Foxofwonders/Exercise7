@@ -18,5 +18,8 @@ public class Concordances
     System.out.println("Hello, world!");
 
   }
+  
+  public static void a()
+  {}
 
 }
