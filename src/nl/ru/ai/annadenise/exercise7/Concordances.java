@@ -19,8 +19,10 @@ public class Concordances
 
   }
   
-  public static void a()
-  {}
+  public static int multiply(int a, int b)
+  {
+   return 0; 
+  }
   
   public static int add(int a, int b)
   {
