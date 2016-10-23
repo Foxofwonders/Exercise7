@@ -35,5 +35,8 @@ public class Concordances
     
     return a + b;
   }
+  
+  public static void q()
+  {}
 
 }
