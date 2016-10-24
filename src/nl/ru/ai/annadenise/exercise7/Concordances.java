@@ -64,6 +64,7 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
 
 static boolean updateWord(String word, String[] words, int[] freqs, int nr) 
  {
+	assert nr >= 0 && words	!= null &&	freqs != null: "Error while updating word";
 	int pos = sequentialSearch(words, 0, nr, word);
 	if (pos<nr)
 	{
@@ -100,7 +101,7 @@ static void displayFrequencies(int nr, String[] words, int[] freqs)
 {
 	for (int i = 0; i<nr; i++)
 	 { 
-		System.out.println(words[i]+" "+freqs[i]); 
+		System.out.println(words[i]+"      "+freqs[i]); 
 	 }
 }
 
