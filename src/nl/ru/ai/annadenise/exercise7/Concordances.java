@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class Concordances
 {
-	final static int MAX_NR_OF_WORDS = 20000 ;
+	final static int MAX_NR_OF_WORDS = 80000 ;
 	
 
  public static void main(String[] args)
@@ -39,7 +39,7 @@ public class Concordances
 	 System.out.println("Please enter file name, including extension: ");
 	 String fileName=input.nextLine();
 	 FileInputStream inputStream = new FileInputStream(fileName);
-	 return new Scanner(inputStream);
+	 return new Scanner(inputStream).useDelimiter("[\\s+\\., ']+");
  }
   
 
@@ -48,7 +48,7 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
  {
 	assert words!=null && freqs!=null;
 	
-	int nr = 0 ;
+	int nr = 0;
 	while (scanner.hasNext())
 	{
 		String word=scanner.next();
@@ -89,17 +89,16 @@ static int sequentialSearch (String[] words, int from, int to, String word)
 	int position = from;
 	while (position<to && words[position]!=word)
 	{
-		position++ ;
+		position++;
 	}
-	return position ; 
+	return position; 
 }
 
 static void displayFrequencies(int nr, String[] words, int[] freqs) 
 {
 	for (int i = 0; i<nr; i++)
 	 { 
-		String format = "%-20s %2d\n";
-		System.out.format(format, words[i], freqs[i]);
+		System.out.println(words[i]+" "+freqs[i]); 
 	 }
 }
 
