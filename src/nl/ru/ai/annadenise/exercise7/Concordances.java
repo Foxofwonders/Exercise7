@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  * @author Denise van Baalen (s000)
- * @author a (s000)
+ * @author Anna Gansen (s4753755)
  */
 public class Concordances
 {
@@ -23,8 +23,14 @@ public class Concordances
 		
 		Scanner scanner = openTextFile();
 		int nr = findAndCountWords (scanner, words, freqs);
-		displayFrequencies(nr, words, freqs);
-		countWord( words, nr);
+		//displayFrequencies(nr, words, freqs);
+		System.out.println("Insert the word you want to count:");
+		Scanner scanner2 = new Scanner(System.in);
+		String word = scanner2.next();
+		int occurences = countWord(words,nr,word);
+		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+		System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurences/nr)*100 + "% of the text." );
+		displayIndexPositions(words,occurences,nr,word);
 		scanner.close(); 
 	} 
 	catch (FileNotFoundException e) 
@@ -34,7 +40,26 @@ public class Concordances
 	}
   }
  
- static Scanner openTextFile() throws FileNotFoundException
+  static void displayIndexPositions(String[] words, int occurences, int nr, String word) 
+  {
+	int[] indexPositions = new int[occurences];
+	int x=0;
+	for(int i=0;i<nr;i++)
+	{
+		if (words[i].equals(word))
+		{
+			indexPositions[x]=i;
+			x++;
+		}
+	}
+	System.out.println("The index-positions of " + word + " in the text are: ");
+	for(int i=0;i<indexPositions.length;i++)
+	{
+	System.out.print(indexPositions[i] + "  ");
+	}
+  }
+
+static Scanner openTextFile() throws FileNotFoundException
  {
 	 Scanner input=new Scanner(System.in);
 	 System.out.println("Please enter file name, including extension: ");
@@ -62,11 +87,9 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
 	}
 	return nr;
  }
-static void countWord(String[] words, int nr)
+static int countWord(String[] words, int nr, String word)
 {
-	Scanner scanner = new Scanner(System.in);
-	System.out.println("Insert the word you want to count:");
-	String word = scanner.next();
+	
 	int occurence=0;
 	for(int i=0;i<nr;i++)
 	{
@@ -75,9 +98,7 @@ static void countWord(String[] words, int nr)
 			occurence++;
 		}
 	}
-	System.out.println("The word " + word + " was found in the text " + occurence + " times.");
-	System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurence/nr)*100 + "% of the text." );
-
+	return occurence;
 }
 
 static boolean updateWord(String word, String[] words, int[] freqs, int nr) 
