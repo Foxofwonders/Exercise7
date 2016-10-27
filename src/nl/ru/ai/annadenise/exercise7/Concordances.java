@@ -40,7 +40,7 @@ public class Concordances
 	 String fileName=input.nextLine();
 	 FileInputStream inputStream = new FileInputStream(fileName);
 	 //return new Scanner(inputStream).useDelimiter("(?! [a-zA-Z ]+'[a-zA-Z ]+)[ ,;?\\.\\s!']+");
-	 return new Scanner(inputStream).useDelimiter("[\\s+\\.\\,?!\"\\[\\]]+|[-][-]");
+	 return new Scanner(inputStream).useDelimiter("[\\s+\\.\\,?!\"\\[\\]:()]+|[-][-]");
 	 //return new Scanner(inputStream).useDelimiter("([^a-z]'[A-Z])([a-z]'[^a-z])");
  }
   
