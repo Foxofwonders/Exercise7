@@ -61,6 +61,21 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
 	}
 	return nr;
  }
+static void countWord(String[] words, int nr)
+{
+	Scanner scanner = new Scanner(System.in);
+	System.out.println("Insert the word you want to count:");
+	String word = scanner.next();
+	int occurence=0;
+	for(int i=0;i<nr;i++)
+	{
+		if (words[i].equals(word))
+		{
+			occurence++;
+		}
+	}
+	System.out.println("The word " + word + " was found in the text " + occurence + " times.");
+}
 
 static boolean updateWord(String word, String[] words, int[] freqs, int nr) 
  {
