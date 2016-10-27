@@ -20,18 +20,68 @@ public class Concordances
 	{
 		String [] words=new String [MAX_NR_OF_WORDS] ;
 		int [] freqs=new int[MAX_NR_OF_WORDS] ;
+		Scanner scannerWithDelimeters = openTextFile();
+		Scanner scanner = new Scanner(System.in);
+		int nr = findAndCountWords (scannerWithDelimeters, words, freqs);
+		int loop=1;
+		String word=null;
+		int occurences=0;
+		int[] indexPositions=null;
+		while(loop==1){
+		System.out.println("What do you want to do? (type only the number)");
+		System.out.println("(1) display all words of the text");
+		System.out.println("(2) count occurences of a word in the text");
+		System.out.println("(3) display the index-positions of a word");
+		System.out.println("(4) display occurences of a word with context");
+		System.out.println("(5) end the program");
+		int decision = scanner.nextInt();
+		switch(decision)
+		{
+		case 1:
+		displayFrequencies(nr, words, freqs);
+		break;
 		
-		Scanner scanner = openTextFile();
-		int nr = findAndCountWords (scanner, words, freqs);
-		//displayFrequencies(nr, words, freqs);
+		case 2:
 		System.out.println("Insert the word you want to count:");
-		Scanner scanner2 = new Scanner(System.in);
-		String word = scanner2.next();
-		int occurences = countWord(words,nr,word);
+	    word = scanner.next();
+		occurences = countWord(words,nr,word);
 		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
 		System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurences/nr)*100 + "% of the text." );
-		displayIndexPositions(words,occurences,nr,word);
-		scanner.close(); 
+		break;
+		
+		case 3:
+		System.out.println("Insert the word you want to know the index-positions of:");
+		word = scanner.next();
+	    occurences = countWord(words,nr,word);
+		indexPositions= findIndexPositions(words,occurences,nr,word);	
+		System.out.println("The index-positions of " + word + " in the text are: ");
+		for(int i=0;i<indexPositions.length;i++)
+		{
+		System.out.print(indexPositions[i] + "  ");
+		}
+		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+		break;
+		
+		case 4:
+		System.out.println("Insert the word you want to know the occurences with context of:");
+		word = scanner.next();
+		System.out.println("How many words to you");
+	    occurences = countWord(words,nr,word);
+		indexPositions= findIndexPositions(words,occurences,nr,word);	
+		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+		break;
+			
+		case 5:
+		loop=0;	
+		break;
+		
+		default:
+		System.out.println("Type a valid input");
+		break;
+		}
+		}
+		scannerWithDelimeters.close(); 
+		scanner.close();
 	} 
 	catch (FileNotFoundException e) 
 	{
@@ -40,7 +90,9 @@ public class Concordances
 	}
   }
  
-  static void displayIndexPositions(String[] words, int occurences, int nr, String word) 
+
+	
+  static int[] findIndexPositions(String[] words, int occurences, int nr, String word) 
   {
 	int[] indexPositions = new int[occurences];
 	int x=0;
@@ -52,11 +104,7 @@ public class Concordances
 			x++;
 		}
 	}
-	System.out.println("The index-positions of " + word + " in the text are: ");
-	for(int i=0;i<indexPositions.length;i++)
-	{
-	System.out.print(indexPositions[i] + "  ");
-	}
+	return indexPositions;
   }
 
 static Scanner openTextFile() throws FileNotFoundException
