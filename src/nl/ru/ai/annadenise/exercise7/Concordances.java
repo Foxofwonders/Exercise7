@@ -39,36 +39,19 @@ public class Concordances
 		{
 		case 1:
 		displayFrequencies(nr, words, freqs);
+		System.out.println("");
 		break;
 		
 		case 2:
-		System.out.println("Insert the word you want to count:");
-	    word = scanner.next();
-		occurences = countWord(words,nr,word);
-		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
-		System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurences/nr)*100 + "% of the text." );
+		displayWordOccurences(words, nr);
 		break;
 		
 		case 3:
-		System.out.println("Insert the word you want to know the index-positions of:");
-		word = scanner.next();
-	    occurences = countWord(words,nr,word);
-		indexPositions= findIndexPositions(words,occurences,nr,word);	
-		System.out.println("The index-positions of " + word + " in the text are: ");
-		for(int i=0;i<indexPositions.length;i++)
-		{
-		System.out.print(indexPositions[i] + "  ");
-		}
-		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+		displayIndexPositions(words,nr);
 		break;
 		
 		case 4:
-		System.out.println("Insert the word you want to know the occurences with context of:");
-		word = scanner.next();
-		System.out.println("How many words to you");
-	    occurences = countWord(words,nr,word);
-		indexPositions= findIndexPositions(words,occurences,nr,word);	
-		System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+		displayWordInContext(words,nr);
 		break;
 			
 		case 5:
@@ -91,6 +74,56 @@ public class Concordances
   }
  
 
+ static void displayWordOccurences(String[] words, int nr)
+ {
+	 Scanner scanner = new Scanner(System.in);
+	 System.out.println("Insert the word you want to count:");
+	 String  word = scanner.next();
+	 int occurences = countWord(words,nr,word);
+	 System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+     System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurences/nr)*100 + "% of the text." );
+	 System.out.println("");
+	 scanner.close();
+ }
+ 
+ static void displayIndexPositions(String[] words, int nr)
+ {
+	 Scanner scanner = new Scanner(System.in);
+	 System.out.println("Insert the word you want to know the index-positions of:");
+	 String word = scanner.next();
+	 int occurences = countWord(words,nr,word);
+     int[] indexPositions= findIndexPositions(words,occurences,nr,word);	
+	 System.out.println("The index-positions of " + word + " in the text are: ");
+	 for(int i=0;i<indexPositions.length;i++)
+	 {
+	    System.out.print(indexPositions[i] + "  ");
+	 }
+	 System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+	 System.out.println("");
+	 scanner.close();
+ }
+ 
+ static void displayWordInContext(String[] words, int nr)
+ {
+	 Scanner scanner = new Scanner(System.in);
+	 System.out.println("Insert the word you want to know the occurences with context of:");
+	 String word = scanner.next();
+	 System.out.println("How many words to you want displayed before and after the word?");
+	 int m = scanner.nextInt();
+	 int occurences = countWord(words,nr,word);
+     int[] indexPositions = findIndexPositions(words,occurences,nr,word);	
+	 for(int i=0;i<indexPositions.length;i++)
+	 {
+		for(int z=indexPositions[i]-m;z<=indexPositions[i]+m;z++)
+		{
+			System.out.print(words[z] + " ");
+		}
+	 System.out.println("");
+	 }
+	 System.out.println("The word " + word + " was found in the text " + occurences + " times.");
+	 System.out.println("");
+	 scanner.close();
+ }
 	
   static int[] findIndexPositions(String[] words, int occurences, int nr, String word) 
   {
@@ -135,9 +168,9 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
 	}
 	return nr;
  }
+
 static int countWord(String[] words, int nr, String word)
 {
-	
 	int occurence=0;
 	for(int i=0;i<nr;i++)
 	{
