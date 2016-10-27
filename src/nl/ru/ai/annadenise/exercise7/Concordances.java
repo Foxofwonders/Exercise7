@@ -77,25 +77,41 @@ public class Concordances
   }
  
 
- static void displayWordOccurences(String[] words, int nr)
+ /** Displays the number of word occurences in the text, using the occurrences as
+  * found in the countWord function.
+ * @param words
+ * @param nr
+ */
+static void displayWordOccurences(String[] words, int nr)
  {
+	 assert words!=null: "Array should be initialised";
+	 
 	 Scanner scanner = new Scanner(System.in);
 	 System.out.println("Insert the word you want to count:");
 	 String  word = scanner.next();
-	 int occurences = countWord(words,nr,word);
-	 System.out.println("The word '" + word + "' was found in the text " + occurences + " times.");
-     System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurences/nr)*100 + "% of the text." );
+	 int occurrences = countWord(words,nr,word);
+	 System.out.println("The word '" + word + "' was found in the text " + occurrences + " times.");
+     System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurrences/nr)*100 + "% of the text." );
 	 System.out.println("");
 
  }
  
- static void displayIndexPositions(String[] words, int nr)
+ /** Displays the index positions of a given word in a given text file, using
+  * the array made in the findIndexPositions function.
+ * @param words
+ * @param nr
+ */
+static void displayIndexPositions(String[] words, int nr)
  {
+	assert words!=null: "Array should be initialised.";
+	
 	 Scanner scanner = new Scanner(System.in);
 	 System.out.println("Insert the word you want to know the index-positions of:");
 	 String word = scanner.next();
+	 
 	 int occurences = countWord(words,nr,word);
-     int[] indexPositions= findIndexPositions(words,occurences,nr,word);	
+     int[] indexPositions= findIndexPositions(words,occurences,nr,word);
+     
 	 System.out.println("The index-positions of '" + word + "' in the text are: ");
 	 for(int i=0;i<indexPositions.length;i++)
 	 {
@@ -107,8 +123,16 @@ public class Concordances
 
  }
  
- static void displayWordInContext(String[] words, int nr)
+ /** Displays the m number of words that occur before and after the given word,
+  * using a nested for-loop.
+  * Also prints the total number of times the given word occurs in the file.
+ * @param words
+ * @param nr
+ */
+static void displayWordInContext(String[] words, int nr)
  {
+	assert words!=null: "Array should be initialised.";
+	
 	 Scanner scanner = new Scanner(System.in);
 	 System.out.println("Insert the word you want to know the occurences with context of:");
 	 String word = scanner.next();
@@ -128,8 +152,20 @@ public class Concordances
 	 System.out.println("");
  }
 	
-  static int[] findIndexPositions(String[] words, int occurences, int nr, String word) 
+  /** Finds the index positions of a given word by running through the words in
+   * the text, and testing if they are equal to the given word.
+   * Returns the array with the index positions.
+ * @param words
+ * @param occurences
+ * @param nr
+ * @param word
+ * @return
+ */
+static int[] findIndexPositions(String[] words, int occurences, int nr, String word) 
   {
+	assert words!=null: "Array should be initialised.";
+	assert word!=null: "Word that is to be found should be given.";
+	
 	int[] indexPositions = new int[occurences];
 	int x=0;
 	for(int i=0;i<nr;i++)
@@ -143,22 +179,32 @@ public class Concordances
 	return indexPositions;
   }
 
+/** Asks for file to be read, and returns a scanner to read said file.
+ * A delimiter is present in the scanner, that picks out whitespace and 
+ * punctuation marks as word separators that are no words themselves.
+ * @return
+ * @throws FileNotFoundException
+ */
 static Scanner openTextFile() throws FileNotFoundException
  {
 	 Scanner input=new Scanner(System.in);
 	 System.out.println("Please enter file name, including extension: ");
 	 String fileName=input.nextLine();
 	 FileInputStream inputStream = new FileInputStream(fileName);
-	 //return new Scanner(inputStream).useDelimiter("(?! [a-zA-Z ]+'[a-zA-Z ]+)[ ,;?\\.\\s!']+");
 	 return new Scanner(inputStream).useDelimiter("[\\s+\\.\\,?!\"\\[\\]:()']+|[-][-]");
-	 //return new Scanner(inputStream).useDelimiter("([^a-z]'[A-Z])([a-z]'[^a-z])");
  }
   
 
 
+/** Finds the total number of words in the text.
+ * @param scanner
+ * @param words
+ * @param freqs
+ * @return
+ */
 static int findAndCountWords(Scanner scanner, String[] words, int[] freqs) 
  {
-	assert words!=null && freqs!=null;
+	assert words!=null && freqs!=null: "Arrays should be initialised";
 	
 	int nr = 0;
 	while (scanner.hasNext())
@@ -172,22 +218,41 @@ static int findAndCountWords(Scanner scanner, String[] words, int[] freqs)
 	return nr;
  }
 
+/** Every time the word is found in the array, increments the 'occurrence' counter.
+ * Returns the total number of times the word is found in the text.
+ * @param words
+ * @param nr
+ * @param word
+ * @return
+ */
 static int countWord(String[] words, int nr, String word)
 {
-	int occurence=0;
+	assert words!=null: "Array should be initialised";
+	
+	int occurrence=0;
 	for(int i=0;i<nr;i++)
 	{
 		if (words[i].equals(word))
 		{
-			occurence++;
+			occurrence++;
 		}
 	}
-	return occurence;
+	return occurrence;
 }
 
+/** Tests if the word occurs already within the string. If it does, increments 
+ * the counter of the word. If it doesn't, adds the word to the word string and
+ * sets its frequency to 1.
+ * @param word
+ * @param words
+ * @param freqs
+ * @param nr
+ * @return
+ */
 static boolean updateWord(String word, String[] words, int[] freqs, int nr) 
  {
 	assert nr >= 0 && words	!= null &&	freqs != null: "Error while updating word";
+	
 	int pos = sequentialSearch(words, 0, nr, word);
 	if (pos<nr)
 	{
@@ -202,6 +267,16 @@ static boolean updateWord(String word, String[] words, int[] freqs, int nr)
 	} 
  }
 
+/** Searches within given boundaries to a given word.
+ * Returns the first position on which the word occurs, if the word occurs within
+ * those boundaries.
+ * If the word does not occur, returns the upper boundary.
+ * @param words
+ * @param from
+ * @param to
+ * @param word
+ * @return
+ */
 static int sequentialSearch (String[] words, int from, int to, String word) 
 {
 	assert 0 <= from && 0 <= to : "Invalid bounds";
@@ -220,8 +295,15 @@ static int sequentialSearch (String[] words, int from, int to, String word)
 	return position; 
 }
 
+/** Prints each word of the text on a new line with its frequency next to it.
+ * @param nr
+ * @param words
+ * @param freqs
+ */
 static void displayFrequencies(int nr, String[] words, int[] freqs) 
 {
+	assert words!=null && freqs!=null: "Arrays should be initialised";
+	
 	for (int i = 0; i<nr; i++)
 	 { 
 		System.out.println(words[i]+"      "+freqs[i]); 
