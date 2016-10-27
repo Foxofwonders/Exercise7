@@ -24,6 +24,7 @@ public class Concordances
 		Scanner scanner = openTextFile();
 		int nr = findAndCountWords (scanner, words, freqs);
 		displayFrequencies(nr, words, freqs);
+		countWord( words, nr);
 		scanner.close(); 
 	} 
 	catch (FileNotFoundException e) 
@@ -75,6 +76,8 @@ static void countWord(String[] words, int nr)
 		}
 	}
 	System.out.println("The word " + word + " was found in the text " + occurence + " times.");
+	System.out.println("The text has a total of " + nr + " words. So the word is " + ((double)occurence/nr)*100 + "% of the text." );
+
 }
 
 static boolean updateWord(String word, String[] words, int[] freqs, int nr) 
