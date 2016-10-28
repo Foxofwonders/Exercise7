@@ -28,34 +28,28 @@ public class Concordances
 		while(loop==1)
 		{
 			System.out.println("What do you want to do? (type only the number)");
-			System.out.println("(1) display all words of the text");
-			System.out.println("(2) count occurences of a word in the text");
-			System.out.println("(3) display the index-positions of a word");
-			System.out.println("(4) display occurences of a word with context");
-			System.out.println("(5) end the program");
+			System.out.println("(1) count occurences of a word in the text");
+			System.out.println("(2) display the index-positions of a word");
+			System.out.println("(3) display occurences of a word with context");
+			System.out.println("(4) end the program");
 			
 			decision = scanner.nextInt();
 			
 			switch(decision)
 			{
 				case 1:
-				displayFrequencies(nr, words, freqs);
-				System.out.println("");
-				break;
-				
-				case 2:
 				displayWordOccurences(words, nr);
 				break;
 				
-				case 3:
+				case 2:
 				displayIndexPositions(words,nr);
 				break;
 				
-				case 4:
+				case 3:
 				displayWordInContext(words,nr);
 				break;
 					
-				case 5:
+				case 4:
 				loop=0;	
 				break;
 				
@@ -142,9 +136,16 @@ static void displayWordInContext(String[] words, int nr)
      int[] indexPositions = findIndexPositions(words,occurences,nr,word);	
 	 for(int i=0;i<indexPositions.length;i++)
 	 {
+		 while(indexPositions[i]-m<0||indexPositions[i]+m>=indexPositions.length)
+			{
+				m--;
+				System.out.println("The context was limited.");
+			}
 		for(int z=indexPositions[i]-m;z<=indexPositions[i]+m;z++)
 		{
+			
 			System.out.print(words[z] + " ");
+			
 		}
 	 System.out.println("");
 	 }
